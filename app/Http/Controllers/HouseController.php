@@ -34,9 +34,11 @@ class HouseController extends Controller
         if ($request->get('garages')) {
             $houses = $houses->where('garages', $request->get('garages'));
         }
-        if ($request->get('start_price') && $request->get('end_price')) {
-            $houses = $houses->whereBetween('price',
-                [$request->get('start_price'), $request->get('end_price')]);
+        if ($request->get('start_price')) {
+            $houses = $houses->where('price', '>=', $request->get('start_price'));
+        }
+        if ($request->get('end_price')) {
+            $houses = $houses->where('price', '<=', $request->get('end_price'));
         }
         return response()->json(['houses' => $houses->get()], 200);
     }
